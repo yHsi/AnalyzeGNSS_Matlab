@@ -12,7 +12,7 @@ path_txt = [path_txt,'\\观测整体质量评价文本.txt'];
 % 统计各个系统，每颗卫星每个频率伪距、相位观测值出现的比例
     SatNumStatistics2(class_obj,path_txt);
 % 绘制不同卫星系统卫星数目的时序图。
-    SatNumStatistics3(class_obj);
+   % SatNumStatistics3(class_obj);
 % 统计每个卫星系统、每个频率的信噪比平均值与标准差
     SatNumStatistics4(class_obj,path_txt);
 % 统计每个卫星系统、每个频率的LLI标志出现次数的平均值以及出现的比例
@@ -20,7 +20,7 @@ path_txt = [path_txt,'\\观测整体质量评价文本.txt'];
 % 绘制LLI（残差-SNR）图散点
     %SatNumStatistics6(class_obj);
 % 绘制LLI（残差-SNR）柱状图
-    SatNumStatistics7(class_obj);
+   % SatNumStatistics7(class_obj);
 end
 
 
@@ -35,35 +35,66 @@ function [ bool ] = SatNumStatistics1( class_obj ,path_txt)
     class_obj.m_rate_n2_sat = m_sum_n2./class_obj.m_SatNum_N(1,1:n2);
     class_obj.m_rate_nn_sat = m_sum_nn./class_obj.m_SatNum_N(1,1:nn);
     for sys = 1:5
+        
+
+        
         % 卫星平均数
         class_obj.m_ValidsatMean(1,sys)=mean(class_obj.m_ValidsatAll(:,sys));
         % 卫星数标准差 
         class_obj.m_ValidsatStd(1,sys)=std(class_obj.m_ValidsatAll(:,sys),1);
         % 统计各个系统，每颗卫星每个频率数据出现的比例
-        ALL = class_obj.m_SatNum_N(1,class_obj.m_PRN0(sys):class_obj.m_PRN1(sys));
-        ALL(isnan(ALL))=[];
-        if isempty(m_sum_n1) || sum(m_sum_n1) == 0
-        class_obj.m_mean_rate_n1(sys) = 0 ;
-        else
-        A = m_sum_n1(1,class_obj.m_PRN0(sys):class_obj.m_PRN1(sys));
-        A(isnan(A))=[];
-        class_obj.m_mean_rate_n1(sys) = sum(A)./sum(ALL)*100;
+        if n1 >= class_obj.m_PRN0(sys)
+            clear ALL;
+            if class_obj.m_PRN1(sys) > n1
+                index_end = n1;
+            else
+                index_end = class_obj.m_PRN1(sys);
+            end
+            ALL = class_obj.m_SatNum_N(1,class_obj.m_PRN0(sys):index_end);
+            ALL(isnan(ALL))=[];
+            if isempty(m_sum_n1) || sum(m_sum_n1) == 0
+            class_obj.m_mean_rate_n1(sys) = 0 ;
+            else
+            A = m_sum_n1(1,class_obj.m_PRN0(sys):index_end);
+            A(isnan(A))=[];
+            class_obj.m_mean_rate_n1(sys) = sum(A)./sum(ALL)*100;
+            end
+        end
+        
+        if n2 >= class_obj.m_PRN0(sys)
+            clear ALL;
+            if class_obj.m_PRN1(sys) > n2
+                index_end = n2;
+            else
+                index_end = class_obj.m_PRN1(sys);
+            end
+            ALL = class_obj.m_SatNum_N(1,class_obj.m_PRN0(sys):index_end);
+            ALL(isnan(ALL))=[];
+            if isempty(m_sum_n2) || sum(m_sum_n2) == 0
+            class_obj.m_mean_rate_n2(sys) = 0;
+            else
+            B = m_sum_n2(1,class_obj.m_PRN0(sys):index_end);
+            B(isnan(B))=[];
+            class_obj.m_mean_rate_n2(sys) = sum(B)./sum(ALL)*100;           
+            end
         end
 
-        if isempty(m_sum_n2) || sum(m_sum_n2) == 0
-        class_obj.m_mean_rate_n2(sys) = 0;
-        else
-        B = m_sum_n2(1,class_obj.m_PRN0(sys):class_obj.m_PRN1(sys));
-        B(isnan(B))=[];
-        class_obj.m_mean_rate_n2(sys) = sum(B)./sum(ALL)*100;           
-        end
-
-        if isempty(m_sum_nn) || sum(m_sum_nn) == 0
-        class_obj.m_mean_rate_nn(sys) = 0 ;
-        else
-        C = m_sum_nn(1,class_obj.m_PRN0(sys):class_obj.m_PRN1(sys));
-        C(isnan(C))=[];
-        class_obj.m_mean_rate_nn(sys) = sum(C)./sum(ALL)*100;
+        if nn >= class_obj.m_PRN0(sys)
+            clear ALL;
+            if class_obj.m_PRN1(sys) > nn
+                index_end = nn;
+            else
+                index_end = class_obj.m_PRN1(sys);
+            end
+            ALL = class_obj.m_SatNum_N(1,class_obj.m_PRN0(sys):index_end);
+            ALL(isnan(ALL))=[];
+            if isempty(m_sum_nn) || sum(m_sum_nn) == 0
+            class_obj.m_mean_rate_nn(sys) = 0 ;
+            else
+            C = m_sum_nn(1,class_obj.m_PRN0(sys):index_end);
+            C(isnan(C))=[];
+            class_obj.m_mean_rate_nn(sys) = sum(C)./sum(ALL)*100;
+            end
         end
     end
     
@@ -95,20 +126,32 @@ function [ bool ] = SatNumStatistics2( class_obj,path_txt )
     class_obj.m_rate_nl = m_sum_nl./m_sum_nf(1,1:n2,:);
     for sys = 1:5
         for f = 1:2
-        if ~isempty(m_sum_nf(1,:,f))
-            ALL = m_sum_nf(1,class_obj.m_PRN0(sys):class_obj.m_PRN1(sys),f);
-        else
-            ALL = 0;
-        end
+        % 伪距
         if ~isempty(m_sum_np(1,:,f))
-            A = m_sum_np(1,class_obj.m_PRN0(sys):class_obj.m_PRN1(sys),f);
+            clear ALL;
+            if ~isempty(m_sum_nf(1,:,f))
+                ALL = m_sum_nf(1,class_obj.m_PRN0(sys):min(class_obj.m_PRN1(sys),n1),f);
+            else
+                ALL = 0;
+            end
+            
+            A = m_sum_np(1,class_obj.m_PRN0(sys):min(class_obj.m_PRN1(sys),n1),f);
             A(isnan(A))=[];
             class_obj.m_mean_rate_np(sys,f) = sum(A)./sum(ALL)*100;
         else
             class_obj.m_mean_rate_np(sys,f) = 0;
         end
+        
+        % 相位
         if ~isempty(m_sum_nl(1,:,f))
-            B = m_sum_nl(1,class_obj.m_PRN0(sys):class_obj.m_PRN1(sys),f);
+            clear ALL;
+            if ~isempty(m_sum_nf(1,:,f))
+                ALL = m_sum_nf(1,class_obj.m_PRN0(sys):min(class_obj.m_PRN1(sys),n2),f);
+            else
+                ALL = 0;
+            end
+            
+            B = m_sum_nl(1,class_obj.m_PRN0(sys):min(class_obj.m_PRN1(sys),n2),f);
             B(isnan(B))=[];
             class_obj.m_mean_rate_nl(sys,f) = sum(B)./sum(ALL)*100;
         else
@@ -162,10 +205,13 @@ end
 
 function [ bool ] = SatNumStatistics4( class_obj ,path_txt)
     %标准差
+    [~,nsat,~] = size(class_obj.m_CN0);
+    
     for sys = 1:5
         for f = 1:2
             if ~isempty(class_obj.m_CN0(:,:,f))
-            B = class_obj.m_CN0(:,class_obj.m_PRN0(sys):class_obj.m_PRN1(sys),f);
+                
+            B = class_obj.m_CN0(:,class_obj.m_PRN0(sys):min(class_obj.m_PRN1(sys),nsat),f);
             C = [];
             [m,n] = size(B);
             for i = 1:n
@@ -195,19 +241,21 @@ end
 function [ bool ] = SatNumStatistics5( class_obj ,path_txt)
     m_sum_NLLI = sum(class_obj.m_SatNum_NLLI);
     m_sum_nf = sum(class_obj.m_SatNum_Nf);
-    [~,~,f1] = size(m_sum_nf);
+    [~,nsat_NLLI,~] = size(m_sum_NLLI);
+    [~,nsat_nf,f1] = size(m_sum_nf);
+    nsat = min(nsat_nf,nsat_NLLI);
     if f1 == 1
        ADD = zeros(1,140,1);
        m_sum_nf = cat(3,m_sum_nf,ADD);
     end
-    m_lli_rate = m_sum_NLLI./m_sum_nf;
-    m_P = class_obj.m_LLI_P./m_sum_NLLI;
-    m_CN0 = class_obj.m_LLI_CN0./m_sum_NLLI;
-    m_el = class_obj.m_LLI_el./m_sum_NLLI;
+    m_lli_rate = m_sum_NLLI(1,1:nsat,:)./m_sum_nf(1,1:nsat,:);
+    m_P = class_obj.m_LLI_P(1,1:nsat,:)./m_sum_NLLI(1,1:nsat,:);
+    m_CN0 = class_obj.m_LLI_CN0(1,1:nsat,:)./m_sum_NLLI(1,1:nsat,:);
+    m_el = class_obj.m_LLI_el(1,1:nsat,:)./m_sum_NLLI(1,1:nsat,:);
     for sys = 1:5
         for f = 1:2
             if ~isempty(m_sum_NLLI(1,:,f))
-            A = m_sum_NLLI(1,class_obj.m_PRN0(sys):class_obj.m_PRN1(sys),f);
+            A = m_sum_NLLI(1,class_obj.m_PRN0(sys):min(class_obj.m_PRN1(sys),nsat),f);
             A(find(A==0)) = [];
             class_obj.m_LLI_nsum(sys,f) = sum(A); 
             else
@@ -215,7 +263,7 @@ function [ bool ] = SatNumStatistics5( class_obj ,path_txt)
             end
             
             if ~isempty(m_lli_rate(1,:,f))
-            B = m_sum_nf(1,class_obj.m_PRN0(sys):class_obj.m_PRN1(sys),f);
+            B = m_sum_nf(1,class_obj.m_PRN0(sys):min(class_obj.m_PRN1(sys),nsat),f);
             B(isnan(B))=[];
             class_obj.m_LLI_nrate(sys,f) = class_obj.m_LLI_nsum(sys,f)./sum(B)*100;
             else
@@ -223,7 +271,7 @@ function [ bool ] = SatNumStatistics5( class_obj ,path_txt)
             end
             
             if ~isempty(m_P(1,:,f))
-            C = class_obj.m_LLI_P(1,class_obj.m_PRN0(sys):class_obj.m_PRN1(sys),f);
+            C = class_obj.m_LLI_P(1,class_obj.m_PRN0(sys):min(class_obj.m_PRN1(sys),nsat),f);
             C(isnan(C))=[];
             class_obj.m_LLI_P_mean(sys,f) = sum(C)/class_obj.m_LLI_nsum(sys,f);
             else
@@ -231,7 +279,7 @@ function [ bool ] = SatNumStatistics5( class_obj ,path_txt)
             end
             
             if ~isempty(m_CN0(1,:,f))
-            D = class_obj.m_LLI_CN0(1,class_obj.m_PRN0(sys):class_obj.m_PRN1(sys),f);
+            D = class_obj.m_LLI_CN0(1,class_obj.m_PRN0(sys):min(class_obj.m_PRN1(sys),nsat),f);
             D(isnan(D))=[];
             class_obj.m_LLI_CN0_mean(sys,f) = sum(D)./class_obj.m_LLI_nsum(sys,f);
             else
@@ -239,7 +287,7 @@ function [ bool ] = SatNumStatistics5( class_obj ,path_txt)
             end
             
             if ~isempty(m_el(1,:,f))
-            E = class_obj.m_LLI_el(1,class_obj.m_PRN0(sys):class_obj.m_PRN1(sys),f);
+            E = class_obj.m_LLI_el(1,class_obj.m_PRN0(sys):min(class_obj.m_PRN1(sys),nsat),f);
             E(isnan(E))=[];
             class_obj.m_LLI_EL_mean(sys,f) = sum(E)./class_obj.m_LLI_nsum(sys,f);
             else

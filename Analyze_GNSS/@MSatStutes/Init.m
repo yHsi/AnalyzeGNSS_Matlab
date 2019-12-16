@@ -1,15 +1,18 @@
-function [bool] = Init(class_obj,path,filename)
+function [bool] = Init(class_obj,path,filename,beginTime,endTime)
 %   MSatStutes的类方法
 %   更新有关读文件的变量
     class_obj.m_path = path;
     class_obj.m_filename = filename;
+    % endTime为0表示默认全部读取
+    class_obj.m_beginTime = beginTime;
+    class_obj.m_endTime = endTime; 
     class_obj.m_PriAllfile = [path,filename,'.txt'];
     if ~exist(class_obj.m_PriAllfile)
         bool = 0;
         disp('The PriAllfile is not exist!')
         return;
     end
-    class_obj.m_Matfile =  [path,filename,'_class','.mat'];
+    class_obj.m_Matfile =  [path,filename,'_class','_',num2str(endTime),'.mat'];
     % 进度条
     wait_h = waitbar(0,'初始化参数中');
     
