@@ -92,6 +92,8 @@ classdef MSatStutes < handle
     m_filename = '';
     m_PriAllfile = '';
     m_Matfile = '';
+    m_beginTime = 0;
+    m_endTime = 0;
     end
     
     % CN0分析结果
@@ -125,7 +127,9 @@ classdef MSatStutes < handle
     m_Pall_el;       % 三维数组 [index,sys,f]
     m_Psat_el;   % 三维数组 [index,sat,f]
     m_Lall_el;       % 三维数组 [index,sys,f]
-    m_Lsat_el;   % 三维数组 [index,sat,f]    
+    m_Lsat_el;   % 三维数组 [index,sat,f]   
+    m_SNRsat_el;
+    m_SNRall_el;
     end
     
     % 计算信息
@@ -138,7 +142,7 @@ classdef MSatStutes < handle
     
     % 动态函数
     methods 
-      class_obj =  Init(class_obj,path,filename); % 初始化相关参数
+      class_obj =  Init(class_obj,path,filename,beginTime,endTime); % 初始化相关参数
       bool = display_time_SNR_el(class_obj,sys,prn,f,OBSTYPE,flag_save); % 绘制残差与SNR el的序列图 
       bool = display_sat_mean_std(class_obj,sys,OBSTYPE,flag_save); % 绘制卫星的残差标准差和均值 
       bool = display_res_SNR(class_obj,sys,prn,f,OBSTYPE,flag_save); % 绘制卫星的残差与信噪比的关系 
@@ -150,6 +154,7 @@ classdef MSatStutes < handle
       bool =  OpenPriallFile(class_obj);
       bool =  Classfied_P(class_obj,SNR_delt,EL_delt);
       bool =  Classfied_L(class_obj,SNR_delt,EL_delt);
+      bool =  Classfied_SNR(class_obj,EL_delt)
       bool =  CacluteMsg_SNR_Vsat(class_obj);
       bool =  CacluteMsg_Res(class_obj);
       bool =  Curve_Fitting_Model1(class_obj);

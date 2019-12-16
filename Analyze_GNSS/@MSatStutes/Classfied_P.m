@@ -32,11 +32,11 @@ for f = 1:2
     class_obj.m_index_CN0_dimension(sys,f) = dimension_CN0;
     class_obj.m_index_el_dimension(sys,f) = dimension_el;
     class_obj.m_index_CN0(:,sys,f) = Pall_CN0(:,1);
-    class_obj.m_index_el(:,1,sys) = Pall_el(:,1);
+    class_obj.m_index_el(:,1,sys,f) = Pall_el(:,1);
     class_obj.m_Psat_CN0(:,data_begin:data_end,f) = Psat_CN0(:,2:end);
     class_obj.m_Psat_el(:,data_begin:data_end,f) = Psat_el(:,2:end);
     class_obj.m_Pall_CN0(:,sys,f) = Pall_CN0(:,end);
-    class_obj.m_Pall_el(:,sys) = Pall_el(:,end);
+    class_obj.m_Pall_el(:,sys,f) = Pall_el(:,end);
     
     
     clear Pall_CN0 Psat_CN0 Pall_el Psat_el P S el  

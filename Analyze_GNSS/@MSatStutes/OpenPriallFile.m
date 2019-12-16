@@ -19,6 +19,7 @@ function [bool] = OpenPriallFile(class_obj )
     class_obj.m_LLI_P = zeros(1,140,2);
     class_obj.m_LLI_CN0 = zeros(1,140,2);
     class_obj.m_LLI_el = zeros(1,140,2);
+    flag_time = 0;
 while(~feof(fp))
     oneline = fgets(fp);
     S = regexp(oneline,'(\s+)|:|\t','split');
@@ -29,6 +30,15 @@ while(~feof(fp))
     end
     
     if(newEpoch)
+        if class_obj.m_beginTime ~= 0 && str2num(char(S(1))) < class_obj.m_beginTime
+            newEpoch = 0;
+            flag_time = 0;
+            continue;
+        end
+        
+        if class_obj.m_endTime ~= 0 && str2num(char(S(1))) > class_obj.m_endTime
+            break;
+        end
         n = n+1;
         class_obj.m_GPSTIME(n,1) = str2num(char(S(1)));
         newEpoch = 0;
@@ -38,7 +48,11 @@ while(~feof(fp))
         class_obj.m_SatNum_NLLI(n,:,1) = zeros(1,140);
         class_obj.m_SatNum_NLLI(n,:,2) = zeros(1,140);
         sys = 0;
+        flag_time = 1;
     else
+        if flag_time == 0
+            continue;
+        end
         a = char(S(1));
         satnum =  str2num(a(2:3));
         switch oneline(1)
