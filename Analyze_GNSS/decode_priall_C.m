@@ -1,17 +1,19 @@
 %% 读取验前残差文件 .txt
+% 12.20日修改 修改单频情况下的BUG
+
 %% 结构体定义
 %  pri_all: prn sys el S[3] SD_rea_P[3] DD_res_L[3]
 clear;
 
 % 类定义
 SatStutes = MSatStutes;
-% path = 'K:\硕士毕业论文\城市环境下GNSS信号质量分析\data\20191010\PP7\验前残差\全时段\';
-% name = 'PriRes_SD_GCREJ_LLIl';
-path = 'K:\硕士毕业论文\城市环境下GNSS信号质量分析\data\20191010\ZY1\ublox1\';
-name = 'HW1010_ZY1_ublox1_PriRes_SD_All';
+ path = 'K:\硕士毕业论文\城市环境下GNSS信号质量分析\data\20191010\PP7\验前残差\全时段\';
+ name = 'PriRes_SD_GCREJ_LLIl';
+%path = 'K:\硕士毕业论文\城市环境下GNSS信号质量分析\data\20191010\ZY1\ublox1\';
+%name = 'HW1010_ZY1_ublox1_PriRes_SD_All';
 % 全时段
-beginTime = 0;
-endTime = 0;
+%beginTime = 0;
+%endTime = 0;
 % U型弯场景
 %beginTime = 374773;
 %endTime = 374970;
@@ -19,8 +21,8 @@ endTime = 0;
 %beginTime = 374990;
 %endTime = 375361;
 % 城市峡谷场景
-% beginTime = 378667;
-% endTime = 378890;
+ beginTime = 378667;
+ endTime = 378890;
 SNR_delt = 2;
 EL_delt = 2;
 

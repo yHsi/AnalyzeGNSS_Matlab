@@ -116,16 +116,16 @@ function [ bool ] = SatNumStatistics2( class_obj,path_txt )
     [~,n1,~] = size(m_sum_np);
     [~,n2,~] = size(m_sum_nl);
     [~,~,f1] = size(m_sum_nf);
-    if f1 == 1
-        ADD = zeros(1,140,1);
-        m_sum_np = cat(3,m_sum_np,ADD);
-        m_sum_nl = cat(3,m_sum_nl,ADD);
-        m_sum_nf = cat(3,m_sum_nf,ADD);
-    end
+%     if f1 == 1
+%         ADD = zeros(1,140,1);
+%         m_sum_np = cat(3,m_sum_np,ADD);
+%         m_sum_nl = cat(3,m_sum_nl,ADD);
+%         m_sum_nf = cat(3,m_sum_nf,ADD);
+%     end
     class_obj.m_rate_np = m_sum_np./m_sum_nf(1,1:n1,:);
     class_obj.m_rate_nl = m_sum_nl./m_sum_nf(1,1:n2,:);
     for sys = 1:5
-        for f = 1:2
+        for f = 1:f1
         % Î±¾à
         if ~isempty(m_sum_np(1,:,f))
             clear ALL;
@@ -161,10 +161,12 @@ function [ bool ] = SatNumStatistics2( class_obj,path_txt )
     end
     
     fp = fopen(path_txt,'a');
-    fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n',class_obj.m_mean_rate_np(:,1));
-    fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n',class_obj.m_mean_rate_np(:,2));
-    fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n',class_obj.m_mean_rate_nl(:,1));
-    fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n',class_obj.m_mean_rate_nl(:,2));
+    for f = 1:f1
+         fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n',class_obj.m_mean_rate_np(:,f));
+    end
+    for f = 1:f1
+         fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n',class_obj.m_mean_rate_nl(:,f));
+    end
     fprintf(fp,'\r\n');
     fclose(fp);
 end
@@ -244,16 +246,16 @@ function [ bool ] = SatNumStatistics5( class_obj ,path_txt)
     [~,nsat_NLLI,~] = size(m_sum_NLLI);
     [~,nsat_nf,f1] = size(m_sum_nf);
     nsat = min(nsat_nf,nsat_NLLI);
-    if f1 == 1
-       ADD = zeros(1,140,1);
-       m_sum_nf = cat(3,m_sum_nf,ADD);
-    end
+%     if f1 == 1
+%        ADD = zeros(1,140,1);
+%        m_sum_nf = cat(3,m_sum_nf,ADD);
+%     end
     m_lli_rate = m_sum_NLLI(1,1:nsat,:)./m_sum_nf(1,1:nsat,:);
     m_P = class_obj.m_LLI_P(1,1:nsat,:)./m_sum_NLLI(1,1:nsat,:);
     m_CN0 = class_obj.m_LLI_CN0(1,1:nsat,:)./m_sum_NLLI(1,1:nsat,:);
     m_el = class_obj.m_LLI_el(1,1:nsat,:)./m_sum_NLLI(1,1:nsat,:);
     for sys = 1:5
-        for f = 1:2
+        for f = 1:f1
             if ~isempty(m_sum_NLLI(1,:,f))
             A = m_sum_NLLI(1,class_obj.m_PRN0(sys):min(class_obj.m_PRN1(sys),nsat),f);
             A(find(A==0)) = [];
@@ -297,20 +299,26 @@ function [ bool ] = SatNumStatistics5( class_obj ,path_txt)
     end
     
     fp = fopen(path_txt,'a');
-    fprintf(fp,'%g %g %g %g %g\r\n', class_obj.m_LLI_nsum(:,1));
-    fprintf(fp,'%g %g %g %g %g\r\n', class_obj.m_LLI_nsum(:,2));
+    for f=1:f1
+        fprintf(fp,'%g %g %g %g %g\r\n', class_obj.m_LLI_nsum(:,f));
+    end
+    
+    for f=1:f1
+        fprintf(fp,'%g %g %g %g %g\r\n', class_obj.m_LLI_nrate(:,f));
+    end
 
-    fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n', class_obj.m_LLI_nrate(:,1));
-    fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n', class_obj.m_LLI_nrate(:,2));
+    for f=1:f1
+        fprintf(fp,'%g %g %g %g %g\r\n', class_obj.m_LLI_P_mean(:,f));
+    end
     
-    fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n', class_obj.m_LLI_P_mean(:,1));
-    fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n', class_obj.m_LLI_P_mean(:,2));
+    for f=1:f1
+        fprintf(fp,'%g %g %g %g %g\r\n', class_obj.m_LLI_CN0_mean(:,f));
+    end
     
-    fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n', class_obj.m_LLI_CN0_mean(:,1));
-    fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n', class_obj.m_LLI_CN0_mean(:,2));
+    for f=1:f1
+        fprintf(fp,'%g %g %g %g %g\r\n', class_obj.m_LLI_EL_mean(:,f));
+    end
     
-    fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n', class_obj.m_LLI_EL_mean(:,1));
-    fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n', class_obj.m_LLI_EL_mean(:,2));
     fprintf(fp,'\r\n');
     fclose(fp);
 end
