@@ -113,8 +113,10 @@ function [ bool ] = SatNumStatistics2( class_obj,path_txt )
     m_sum_nf = sum(class_obj.m_SatNum_Nf);
     m_sum_np = sum(class_obj.m_SatNum_Np);
     m_sum_nl = sum(class_obj.m_SatNum_Nl);
+    m_sum_nd = sum(class_obj.m_SatNum_ND);
     [~,n1,~] = size(m_sum_np);
     [~,n2,~] = size(m_sum_nl);
+    [~,n3,~] = size(m_sum_nd);
     [~,~,f1] = size(m_sum_nf);
 %     if f1 == 1
 %         ADD = zeros(1,140,1);
@@ -124,6 +126,7 @@ function [ bool ] = SatNumStatistics2( class_obj,path_txt )
 %     end
     class_obj.m_rate_np = m_sum_np./m_sum_nf(1,1:n1,:);
     class_obj.m_rate_nl = m_sum_nl./m_sum_nf(1,1:n2,:);
+    class_obj.m_rate_nd = m_sum_nd./m_sum_nf(1,1:n3,:);
     for sys = 1:5
         for f = 1:f1
         % Œ±æ‡
@@ -157,6 +160,24 @@ function [ bool ] = SatNumStatistics2( class_obj,path_txt )
         else
             class_obj.m_mean_rate_nl(sys,f) = 0;
         end
+        
+        % ∂‡∆’¿’
+        if ~isempty(m_sum_nd(1,:,f))
+            clear ALL;
+            if ~isempty(m_sum_nd(1,:,f))
+                ALL = m_sum_nd(1,class_obj.m_PRN0(sys):min(class_obj.m_PRN1(sys),n3),f);
+            else
+                ALL = 0;
+            end
+            
+            B = m_sum_nd(1,class_obj.m_PRN0(sys):min(class_obj.m_PRN1(sys),n3),f);
+            B(isnan(B))=[];
+            class_obj.m_mean_rate_nd(sys,f) = sum(B)./sum(ALL)*100;
+        else
+            class_obj.m_mean_rate_nd(sys,f) = 0;
+        end
+        
+        
         end
     end
     
@@ -166,6 +187,9 @@ function [ bool ] = SatNumStatistics2( class_obj,path_txt )
     end
     for f = 1:f1
          fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n',class_obj.m_mean_rate_nl(:,f));
+    end
+    for f = 1:f1
+         fprintf(fp,'%.4f %.4f %.4f %.4f %.4f\r\n',class_obj.m_mean_rate_nd(:,f));
     end
     fprintf(fp,'\r\n');
     fclose(fp);

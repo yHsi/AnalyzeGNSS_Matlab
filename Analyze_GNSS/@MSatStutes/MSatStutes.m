@@ -74,10 +74,13 @@ classdef MSatStutes < handle
     m_SatNum_Nf; %某颗卫星某个频率有观测值出现的历元数目
     m_SatNum_Np; %该颗卫星该频率伪距出现的次数
     m_SatNum_Nl; %相位次数
+    m_SatNum_ND; %多普勒测试
     m_rate_np;
     m_rate_nl;
+    m_rate_nd;
     m_mean_rate_np;
     m_mean_rate_nl;
+    m_mean_rate_nd;
     
     m_LLI_nsum;
     m_LLI_nrate;

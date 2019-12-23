@@ -81,6 +81,12 @@ while(~feof(fp))
         LLI1 = str2num(char(S(8)));
         LLI2 = str2num(char(S(9)));
         EL = str2num(char(S(10)));
+        sign_P1 = str2num(char(S(11)));
+        sign_P2 = str2num(char(S(12)));
+        sign_L1 = str2num(char(S(13)));
+        sign_L2 = str2num(char(S(14)));
+        sign_D1 = str2num(char(S(15)));
+        sign_D2 = str2num(char(S(16)));
         
         class_obj.m_EL(n,satnum) = EL;
         class_obj.m_SD_P(n,satnum,1) = P1;
@@ -101,26 +107,32 @@ while(~feof(fp))
             class_obj.m_SatNum_Nf(n,satnum,2) = 1;
         end
         
-        if P1 ~= 0
+        if sign_P1 ~= 0
            class_obj.m_SatNum_Np(n,satnum,1) = 1; 
         end
-        if P2 ~= 0
+        if sign_P2 ~= 0
            class_obj.m_SatNum_Np(n,satnum,2) = 1; 
         end
-        if L1 ~= 0
+        if sign_L1 ~= 0
            class_obj.m_SatNum_Nl(n,satnum,1) = 1; 
         end
-        if L2 ~= 0
+        if sign_L2 ~= 0
            class_obj.m_SatNum_Nl(n,satnum,2) = 1; 
         end
+        if sign_D1 ~= 0
+           class_obj.m_SatNum_ND(n,satnum,1) = 1; 
+        end
+        if sign_D2 ~= 0
+           class_obj.m_SatNum_ND(n,satnum,2) = 1; 
+        end
         
-        if L1 ~= 0 && P1 ~= 0
+        if sign_L1 ~= 0 && sign_P1 ~= 0
            class_obj.m_SatNum_n1(n,satnum) = 1; 
         end
-        if L2 ~= 0 && P2 ~= 0
+        if sign_L2 ~= 0 && sign_P2 ~= 0
            class_obj.m_SatNum_n2(n,satnum) = 1; 
         end
-        if L1 ~= 0 && P1 ~= 0 && L2 ~= 0 && P2 ~= 0
+        if sign_L1 ~= 0 && sign_P1 ~= 0 && sign_L2 ~= 0 && sign_P2 ~= 0
            class_obj.m_SatNum_nn(n,satnum) = 1; 
         end
 
