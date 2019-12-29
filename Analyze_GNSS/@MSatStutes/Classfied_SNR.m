@@ -19,7 +19,7 @@ for f = 1:2
         S = class_obj.m_CN0(:,data_begin:data_end,f);
         el = class_obj.m_EL(:,data_begin:data_end);
        
-        [ SNRall_el,SNRsat_el,dimension_el ] = Classfied_C(S,el,EL_delt );
+        [ SNRall_el,SNRsat_el,dimension_el ] = Classfied_C(S,el,EL_delt,0 );
         
         SNRall_el = [SNRall_el;zeros(100-dimension_el,2)];
         SNRsat_el = [SNRsat_el;zeros(100-dimension_el,data_end-data_begin+2)];

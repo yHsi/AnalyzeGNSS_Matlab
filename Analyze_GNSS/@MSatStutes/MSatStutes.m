@@ -133,6 +133,7 @@ classdef MSatStutes < handle
     m_Lsat_el;   % 三维数组 [index,sat,f]   
     m_SNRsat_el;
     m_SNRall_el;
+    m_SDP_el;    % 全部数据，不求平均 [index_el,index_SDP,sys,f]
     end
     
     % 计算信息
@@ -165,6 +166,9 @@ classdef MSatStutes < handle
       bool =  Curve_Fitting_Model3(class_obj);
       bool =  Curve_Fitting_Model4(class_obj);
       bool =  SatNumStatistics(class_obj);
+      bool =  Onevecotr_P(class_obj);
+      bool =  Onevecotr_P_noLLI(class_obj);
+      bool =  Display_P_LLI_SNR(class_obj);
     end
     
     
