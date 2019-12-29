@@ -20,8 +20,8 @@ for f = 1:2
         S = class_obj.m_CN0(:,data_begin:data_end,f);
         el = class_obj.m_EL(:,data_begin:data_end);
         
-        [ Pall_CN0,Psat_CN0,dimension_CN0 ] = Classfied_C(abs(P),S,SNR_delt );
-        [ Pall_el,Psat_el,dimension_el ] = Classfied_C(abs(P),el,EL_delt );
+        [ Pall_CN0,Psat_CN0,dimension_CN0 ] = Classfied_C(abs(P),S,SNR_delt,0 );
+        [ Pall_el,Psat_el,dimension_el ] = Classfied_C(abs(P),el,EL_delt,0 );
         
         Pall_CN0 = [Pall_CN0;zeros(100-dimension_CN0,2)];
         Psat_CN0 = [Psat_CN0;zeros(100-dimension_CN0,data_end-data_begin+2)]; % 多加了一列是因为第一列是Index

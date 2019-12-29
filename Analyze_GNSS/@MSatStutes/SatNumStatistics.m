@@ -542,8 +542,8 @@ end
    plotX1 = 1:max_X-min_X+1;
    fh = figure();
    [hAxes,hBar,hLine]=plotyy(plotX1,plotX,plotX1,plotY1,'bar','plot');
-   set(hLine(1),'color',[1,0,0],'LineWidth',1,'Marker','>');
-   set(hLine(2),'color',[0,0,1],'LineWidth',1,'Marker','<');
+   set(hLine(1),'color',[1,0,0],'LineWidth',1,'Marker','*');
+   set(hLine(2),'color',[0,0,1],'LineWidth',1,'Marker','*');
 for i = 1:length(plotX1)
     text(i-0.3,plotX(i,1),num2str(tabX1(i,3),'%.1f'),...
     'HorizontalAlignment','center',...
@@ -556,11 +556,10 @@ end
    set(gca,'xtick',1:max_X-min_X+1,'xticklabel',tabX2(:,1));
    legend(hBar,'LLI','no LLI'); 
    legend(hLine,'LLI','no LLI'); 
-   xlabel('载噪比');
-   ylabel(hAxes(1),'历元数比例（%）');
-   ylabel(hAxes(2),'伪距残差均值');
-   title(title1);
-   set(fh,'PaperUnits','inches','PaperPosition',[0 0 24 12])
+   xlabel('C/N0(dBHz)');
+   ylabel(hAxes(1),'Percentage(%)','FontSize',20);
+   ylabel(hAxes(2),'Absolute pseudorange residuals(m)','FontSize',20);
+   set(fh,'PaperUnits','inches','PaperPosition',[0 0 10 5])
    filename = [path,'\\',title1];
    saveas(fh,filename,'png');
 end

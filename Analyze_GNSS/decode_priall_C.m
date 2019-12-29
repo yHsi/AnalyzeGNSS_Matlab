@@ -9,13 +9,13 @@ clear;
 
 % 类定义
 SatStutes = MSatStutes;
- path = 'K:\硕士毕业论文\城市环境下GNSS信号质量分析\data\20191010\PP7\验前残差\全时段\';
- name = '1010PP7_PriRes_SD_All_1221';
-%path = 'K:\硕士毕业论文\城市环境下GNSS信号质量分析\data\20191010\ZY1\ublox1\';
-%name = 'HW1010_ZY1_ublox1_PriRes_SD_All';
+% path = 'K:\硕士毕业论文\城市环境下GNSS信号质量分析\data\20191010\PP7\验前残差\全时段\';
+% name = '1010PP7_PriRes_SD_All_1221';
+path = 'K:\硕士毕业论文\城市环境下GNSS信号质量分析\data\20191010\ZY1\ublox1\';
+name = 'HW1010_ZY1_ublox1_PriRes_SD_All_1223';
 % 全时段
-beginTime = 0;
-endTime = 0;
+ beginTime = 0;
+ endTime = 0;
 % U型弯场景
 % beginTime = 374773;
 % endTime = 374970;
@@ -23,8 +23,8 @@ endTime = 0;
 %beginTime = 374990;
 %endTime = 375361;
 % 城市峡谷场景
-% beginTime = 378667;
-% endTime = 378890;
+%beginTime = 378667;
+%endTime = 378890;
 SNR_delt = 2;
 EL_delt = 2;
 
@@ -35,9 +35,17 @@ if ~SatStutes.Init(path,name,beginTime,endTime)
 end
 
 %% 寻找残差与标签的关系
-MSatStutes.Classfied_P( SatStutes,SNR_delt,EL_delt );
-MSatStutes.Classfied_L( SatStutes,SNR_delt,EL_delt );
-MSatStutes.Classfied_SNR( SatStutes,EL_delt );
+%MSatStutes.Classfied_P( SatStutes,SNR_delt,EL_delt );
+%MSatStutes.Classfied_L( SatStutes,SNR_delt,EL_delt );
+%MSatStutes.Classfied_SNR( SatStutes,EL_delt );
+
+% 分析每个系统所有的伪距残差与高度角的关系 X轴为高度角 Y轴为伪距残差
+MSatStutes.Onevecotr_P(SatStutes);
+% 分析每个系统所有的伪距残差与高度角的关系 没有LLI X轴为高度角 Y轴为伪距残差
+%MSatStutes.Onevecotr_P_noLLI(SatStutes);
+
+% 绘制双轴图 LLI_SNR_P
+MSatStutes.Display_P_LLI_SNR(SatStutes);
 
 %% 统计相关的信息
 % 文件里面输出的都是可用卫星，并不是观测卫星 即nsat_valid <= n_obs

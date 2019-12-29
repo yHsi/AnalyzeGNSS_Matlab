@@ -141,34 +141,34 @@ while(~feof(fp))
            class_obj.m_LLI_P(1,satnum,1) = class_obj.m_LLI_P(1,satnum,1)+abs(P1);
            class_obj.m_LLI_CN0(1,satnum,1) = class_obj.m_LLI_CN0(1,satnum,1)+S1;
            class_obj.m_LLI_el(1,satnum,1) = class_obj.m_LLI_el(1,satnum,1)+EL;
-           mat_P_SNR = [P1 S1];
-           switch oneline(1)
-               case 'G'
-               class_obj.m_LLI_P_SNR_G_1_y = [class_obj.m_LLI_P_SNR_G_1_y;mat_P_SNR]; 
-               case 'R'
-               class_obj.m_LLI_P_SNR_R_1_y = [class_obj.m_LLI_P_SNR_R_1_y;mat_P_SNR];
-               case 'C'
-               class_obj.m_LLI_P_SNR_C_1_y = [class_obj.m_LLI_P_SNR_C_1_y;mat_P_SNR];
-               case 'E'
-               class_obj.m_LLI_P_SNR_E_1_y = [class_obj.m_LLI_P_SNR_E_1_y;mat_P_SNR];
-               case 'J'
-               class_obj.m_LLI_P_SNR_J_1_y = [class_obj.m_LLI_P_SNR_J_1_y;mat_P_SNR];
-           end
+%            mat_P_SNR = [P1 S1];
+%            switch oneline(1)
+%                case 'G'
+%                class_obj.m_LLI_P_SNR_G_1_y = [class_obj.m_LLI_P_SNR_G_1_y;mat_P_SNR]; 
+%                case 'R'
+%                class_obj.m_LLI_P_SNR_R_1_y = [class_obj.m_LLI_P_SNR_R_1_y;mat_P_SNR];
+%                case 'C'
+%                class_obj.m_LLI_P_SNR_C_1_y = [class_obj.m_LLI_P_SNR_C_1_y;mat_P_SNR];
+%                case 'E'
+%                class_obj.m_LLI_P_SNR_E_1_y = [class_obj.m_LLI_P_SNR_E_1_y;mat_P_SNR];
+%                case 'J'
+%                class_obj.m_LLI_P_SNR_J_1_y = [class_obj.m_LLI_P_SNR_J_1_y;mat_P_SNR];
+%            end
         end
         if LLI1 == 0 && S1 > 0
-            mat_P_SNR = [P1 S1];
-            switch oneline(1)
-               case 'G'
-               class_obj.m_LLI_P_SNR_G_1_n = [class_obj.m_LLI_P_SNR_G_1_n;mat_P_SNR]; 
-               case 'R'
-               class_obj.m_LLI_P_SNR_R_1_n = [class_obj.m_LLI_P_SNR_R_1_n;mat_P_SNR];
-               case 'C'
-               class_obj.m_LLI_P_SNR_C_1_n = [class_obj.m_LLI_P_SNR_C_1_n;mat_P_SNR];
-               case 'E'
-               class_obj.m_LLI_P_SNR_E_1_n = [class_obj.m_LLI_P_SNR_E_1_n;mat_P_SNR];
-               case 'J'
-               class_obj.m_LLI_P_SNR_J_1_n = [class_obj.m_LLI_P_SNR_J_1_n;mat_P_SNR];
-            end
+%             mat_P_SNR = [P1 S1];
+%             switch oneline(1)
+%                case 'G'
+%                class_obj.m_LLI_P_SNR_G_1_n = [class_obj.m_LLI_P_SNR_G_1_n;mat_P_SNR]; 
+%                case 'R'
+%                class_obj.m_LLI_P_SNR_R_1_n = [class_obj.m_LLI_P_SNR_R_1_n;mat_P_SNR];
+%                case 'C'
+%                class_obj.m_LLI_P_SNR_C_1_n = [class_obj.m_LLI_P_SNR_C_1_n;mat_P_SNR];
+%                case 'E'
+%                class_obj.m_LLI_P_SNR_E_1_n = [class_obj.m_LLI_P_SNR_E_1_n;mat_P_SNR];
+%                case 'J'
+%                class_obj.m_LLI_P_SNR_J_1_n = [class_obj.m_LLI_P_SNR_J_1_n;mat_P_SNR];
+%             end
         end
         
         if LLI2 ~= 0
@@ -176,34 +176,34 @@ while(~feof(fp))
            class_obj.m_LLI_P(1,satnum,2) = class_obj.m_LLI_P(1,satnum,2)+abs(P2);
            class_obj.m_LLI_CN0(1,satnum,2) = class_obj.m_LLI_CN0(1,satnum,2)+S2;
            class_obj.m_LLI_el(1,satnum,2) = class_obj.m_LLI_el(1,satnum,2)+EL;
-           mat_P_SNR2 = [P2 S2];
-           switch oneline(1)
-               case 'G'
-               class_obj.m_LLI_P_SNR_G_2_y = [class_obj.m_LLI_P_SNR_G_2_y;mat_P_SNR2]; 
-               case 'R'
-               class_obj.m_LLI_P_SNR_R_2_y = [class_obj.m_LLI_P_SNR_R_2_y;mat_P_SNR2];
-               case 'C'
-               class_obj.m_LLI_P_SNR_C_2_y = [class_obj.m_LLI_P_SNR_C_2_y;mat_P_SNR2];
-               case 'E'
-               class_obj.m_LLI_P_SNR_E_2_y = [class_obj.m_LLI_P_SNR_E_2_y;mat_P_SNR2];
-               case 'J'
-               class_obj.m_LLI_P_SNR_J_2_y = [class_obj.m_LLI_P_SNR_J_2_y;mat_P_SNR2];
-           end
+%            mat_P_SNR2 = [P2 S2];
+%            switch oneline(1)
+%                case 'G'
+%                class_obj.m_LLI_P_SNR_G_2_y = [class_obj.m_LLI_P_SNR_G_2_y;mat_P_SNR2]; 
+%                case 'R'
+%                class_obj.m_LLI_P_SNR_R_2_y = [class_obj.m_LLI_P_SNR_R_2_y;mat_P_SNR2];
+%                case 'C'
+%                class_obj.m_LLI_P_SNR_C_2_y = [class_obj.m_LLI_P_SNR_C_2_y;mat_P_SNR2];
+%                case 'E'
+%                class_obj.m_LLI_P_SNR_E_2_y = [class_obj.m_LLI_P_SNR_E_2_y;mat_P_SNR2];
+%                case 'J'
+%                class_obj.m_LLI_P_SNR_J_2_y = [class_obj.m_LLI_P_SNR_J_2_y;mat_P_SNR2];
+%            end
         end
         if LLI2 == 0 && S2 > 0
-           mat_P_SNR2 = [P2 S2];
-           switch oneline(1)
-               case 'G'
-               class_obj.m_LLI_P_SNR_G_2_n = [class_obj.m_LLI_P_SNR_G_2_n;mat_P_SNR2]; 
-               case 'R'
-               class_obj.m_LLI_P_SNR_R_2_n = [class_obj.m_LLI_P_SNR_R_2_n;mat_P_SNR2];
-               case 'C'
-               class_obj.m_LLI_P_SNR_C_2_n = [class_obj.m_LLI_P_SNR_C_2_n;mat_P_SNR2];
-               case 'E'
-               class_obj.m_LLI_P_SNR_E_2_n = [class_obj.m_LLI_P_SNR_E_2_n;mat_P_SNR2];
-               case 'J'
-               class_obj.m_LLI_P_SNR_J_2_n = [class_obj.m_LLI_P_SNR_J_2_n;mat_P_SNR2];
-           end
+%            mat_P_SNR2 = [P2 S2];
+%            switch oneline(1)
+%                case 'G'
+%                class_obj.m_LLI_P_SNR_G_2_n = [class_obj.m_LLI_P_SNR_G_2_n;mat_P_SNR2]; 
+%                case 'R'
+%                class_obj.m_LLI_P_SNR_R_2_n = [class_obj.m_LLI_P_SNR_R_2_n;mat_P_SNR2];
+%                case 'C'
+%                class_obj.m_LLI_P_SNR_C_2_n = [class_obj.m_LLI_P_SNR_C_2_n;mat_P_SNR2];
+%                case 'E'
+%                class_obj.m_LLI_P_SNR_E_2_n = [class_obj.m_LLI_P_SNR_E_2_n;mat_P_SNR2];
+%                case 'J'
+%                class_obj.m_LLI_P_SNR_J_2_n = [class_obj.m_LLI_P_SNR_J_2_n;mat_P_SNR2];
+%            end
         end
         
         class_obj.m_ValidsatAll(n,sys) = class_obj.m_ValidsatAll(n,sys) + 1;

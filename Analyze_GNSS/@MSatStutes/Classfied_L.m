@@ -20,9 +20,9 @@ for f = 1:2
         L = class_obj.m_DD_L(:,data_begin:data_end,f);
         S = class_obj.m_CN0(:,data_begin:data_end,f);
         el = class_obj.m_EL(:,data_begin:data_end);
-        [ Lall_CN0,Lsat_CN0,dimension_CN0 ] = Classfied_C(abs(L),S,SNR_delt );
+        [ Lall_CN0,Lsat_CN0,dimension_CN0 ] = Classfied_C(abs(L),S,SNR_delt,0 );
     
-        [ Lall_el,Lsat_el,dimension_el ] = Classfied_C(abs(L),el,EL_delt );
+        [ Lall_el,Lsat_el,dimension_el ] = Classfied_C(abs(L),el,EL_delt,0 );
     
         Lall_CN0 = [Lall_CN0;zeros(100-dimension_CN0,2)];
         Lsat_CN0 = [Lsat_CN0;zeros(100-dimension_CN0,data_end-data_begin+2)]; % 多加了一列是因为第一列是Index
